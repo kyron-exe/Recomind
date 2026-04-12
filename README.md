@@ -3,6 +3,9 @@
 > Your dynamic gateway to the best in movies, games, books, and software.
 
 <img width="1887" height="1052" alt="image" src="https://github.com/user-attachments/assets/94b56ced-1224-49f2-a130-5bd615ba7f71" />
+<img width="1910" height="1052" alt="image" src="https://github.com/user-attachments/assets/dd50192d-0c14-41ba-a2c3-2df6d91fba65" />
+<img width="1903" height="1056" alt="image" src="https://github.com/user-attachments/assets/7e434ae1-3833-4268-80a7-c46ecdbe797e" />
+<img width="1893" height="1052" alt="image" src="https://github.com/user-attachments/assets/952da9eb-116a-4d49-bed8-0f87e83a82b1" />
 
 
 ## Overview
