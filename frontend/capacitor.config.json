@@ -1,0 +1,11 @@
+{
+  "appId": "com.recomind.app",
+  "appName": "Recomind",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "http"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

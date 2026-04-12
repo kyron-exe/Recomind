@@ -1,0 +1,45 @@
+Recomind — website + Android app (same codebase)
+
+WEBSITE (unchanged)
+  npm run dev          → http://localhost:5173
+  npm run build        → deploy the "dist" folder to any static host
+  In Chrome/Edge: open the deployed URL → menu "Install app" (PWA)
+
+ANDROID APK (Capacitor)
+  Prerequisites: Node, Android Studio (SDK + JDK), backend running for API calls.
+
+  1) Build UI and copy into the Android project:
+     npm run android:build
+
+  2) Open Android Studio:
+     npm run cap:android
+     (or: npx cap open android)
+
+  3) In Android Studio: Build → Build Bundle(s) / APK(s) → Build APK(s).
+     Debug APK path is usually:
+     android/app/build/outputs/apk/debug/app-debug.apk
+
+  Backend URL on device
+  - Android emulator: app uses http://10.0.2.2:5000 (your PC’s backend on port 5000).
+  - Physical phone: create frontend/.env.production with:
+      VITE_API_URL=http://YOUR_PC_LAN_IP:5000
+    then npm run android:build again (same Wi‑Fi as the PC; backend must listen on 0.0.0.0).
+
+  Cleartext HTTP is allowed in the Android manifest so local/dev APIs work; for Play Store use HTTPS.
+
+FIX: "Parent directory of ... build.gradle\.gradle\build-attribution\... does not exist"
+  This means Android Studio thinks your project root is the FILE "build.gradle" instead of the ANDROID FOLDER.
+
+  Do this:
+  1) File → Close Project.
+  2) File → Open → click the FOLDER:
+       ...\frontend\android
+     (You must see build.gradle, settings.gradle, app\, gradle\ INSIDE that folder — do NOT open
+      "build.gradle" as a file, and do NOT open "frontend" or "app" alone.)
+  3) Android Studio: Settings → Build, Execution, Deployment → Gradle → Gradle user home:
+     leave EMPTY (default C:\Users\<you>\.gradle) unless you know you need a custom path.
+  4) File → Invalidate Caches → Invalidate and Restart.
+  5) If it still fails, delete the folder frontend\android\.gradle (not the whole project), reopen android, Sync.
+
+  Paths with spaces (e.g. "recommender-app - Copy") can confuse tools; if problems continue, copy the
+  project to a path without spaces and open frontend\android from there.
