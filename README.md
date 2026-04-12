@@ -2,7 +2,8 @@
 
 > Your dynamic gateway to the best in movies, games, books, and software.
 
-![Recomind Screenshot](./screenshot.png)
+<img width="1887" height="1052" alt="image" src="https://github.com/user-attachments/assets/94b56ced-1224-49f2-a130-5bd615ba7f71" />
+
 
 ## Overview
 
