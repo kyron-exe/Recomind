@@ -3,9 +3,9 @@
   "appName": "Recomind",
   "webDir": "dist",
   "server": {
-    "androidScheme": "http"
+    "androidScheme": "https"
   },
   "android": {
-    "allowMixedContent": true
+    "allowMixedContent": false
   }
 }

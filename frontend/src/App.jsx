@@ -4,13 +4,13 @@ import RecommendationCard from './components/RecommendationCard';
 import MovieDetailModal from './components/MovieDetailModal';
 import { RecomindHeader, CategoryRail, GenreRail } from './components/RecomindNav';
 import { CATEGORY_GENRES } from './constants/catalog';
-import { API_BASE } from './apiConfig';
+import { API_BASE, fetchApi } from './apiConfig';
 
 async function fetchRecommendationsForGenre(category, genre) {
   const url = `${API_BASE}/api/recommend?category=${encodeURIComponent(category)}&genre=${encodeURIComponent(genre)}`;
   let response;
   try {
-    response = await fetch(url);
+    response = await fetchApi(url);
   } catch {
     throw new Error('NETWORK');
   }
@@ -79,7 +79,7 @@ function App() {
       const msg = error instanceof Error ? error.message : String(error);
       if (msg === 'NETWORK') {
         setLoadError(
-          `Could not reach the API at ${API_BASE}. On a real phone, rebuild with your PC's LAN IP, e.g. VITE_API_URL=http://192.168.x.x:5000. The emulator uses http://10.0.2.2:5000.`
+          `Could not reach the API at ${API_BASE}. Devices and production builds require an HTTPS backend configured with VITE_API_URL.`
         );
       } else if (msg.startsWith('HTTP_')) {
         setLoadError(`API error (${msg.replace(/^HTTP_(\d+).*/, '$1')}). Check that the backend is running on port 5000.`);

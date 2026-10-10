@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { API_BASE as DEFAULT_API } from '../apiConfig';
+import { API_BASE as DEFAULT_API, fetchApi } from '../apiConfig';
+import { providerUrl } from '../providerUrl';
 
 function PosterBlock({ src, alt }) {
   const [failed, setFailed] = useState(false);
@@ -79,7 +80,7 @@ export default function MovieDetailModal({ item, category, onClose, apiBase = DE
       url = `${apiBase}/api/software-details?title=${encodeURIComponent(item.title)}`;
     }
 
-    fetch(url)
+    fetchApi(url)
       .then(async (r) => {
         const data = await r.json().catch(() => ({}));
         if (!cancelled) {
@@ -113,6 +114,9 @@ export default function MovieDetailModal({ item, category, onClose, apiBase = DE
     details?.ok && details.overview ? details.overview : item.description;
 
   const displayTitle = details?.ok ? details.title : item.title;
+  const openLibraryUrl = providerUrl(details?.openLibraryWorkUrl, 'https://openlibrary.org');
+  const rawgUrl = providerUrl(details?.rawgUrl, 'https://rawg.io');
+  const wikipediaUrl = providerUrl(details?.articleUrl, 'https://en.wikipedia.org');
 
   return (
     <div className="modal-root">
@@ -363,8 +367,8 @@ export default function MovieDetailModal({ item, category, onClose, apiBase = DE
             {isBook && (
               <p className="modal-attribution">
                 Book data and covers are provided by{' '}
-                {details?.openLibraryWorkUrl ? (
-                  <a href={details.openLibraryWorkUrl} target="_blank" rel="noreferrer" className="modal-link">
+                {openLibraryUrl ? (
+                  <a href={openLibraryUrl} target="_blank" rel="noreferrer" className="modal-link">
                     Open Library
                   </a>
                 ) : (
@@ -377,8 +381,8 @@ export default function MovieDetailModal({ item, category, onClose, apiBase = DE
             {isGame && (
               <p className="modal-attribution">
                 Game data from{' '}
-                {details?.rawgUrl ? (
-                  <a href={details.rawgUrl} target="_blank" rel="noreferrer" className="modal-link">
+                {rawgUrl ? (
+                  <a href={rawgUrl} target="_blank" rel="noreferrer" className="modal-link">
                     RAWG
                   </a>
                 ) : (
@@ -393,8 +397,8 @@ export default function MovieDetailModal({ item, category, onClose, apiBase = DE
             {isSoftware && (
               <p className="modal-attribution">
                 Summary and images from{' '}
-                {details?.articleUrl ? (
-                  <a href={details.articleUrl} target="_blank" rel="noreferrer" className="modal-link">
+                {wikipediaUrl ? (
+                  <a href={wikipediaUrl} target="_blank" rel="noreferrer" className="modal-link">
                     Wikipedia
                   </a>
                 ) : (
