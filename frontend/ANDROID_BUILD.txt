@@ -19,13 +19,16 @@ ANDROID APK (Capacitor)
      Debug APK path is usually:
      android/app/build/outputs/apk/debug/app-debug.apk
 
-  Backend URL on device
-  - Android emulator: app uses http://10.0.2.2:5000 (your PC’s backend on port 5000).
-  - Physical phone: create frontend/.env.production with:
-      VITE_API_URL=http://YOUR_PC_LAN_IP:5000
-    then npm run android:build again (same Wi‑Fi as the PC; backend must listen on 0.0.0.0).
-
-  Cleartext HTTP is allowed in the Android manifest so local/dev APIs work; for Play Store use HTTPS.
+  Backend URL on device and in production
+  - Both physical phones and emulators require an HTTPS backend with a certificate
+    trusted by the device. Create frontend/.env.production with:
+      VITE_API_URL=https://YOUR_API_HOST
+    then npm run android:build again. Use an HTTPS reverse proxy or tunnel in front
+    of the local backend for device development; do not bypass certificate checks.
+  - API URLs must point directly to the backend; API redirects are rejected.
+  - Cleartext HTTP and mixed content are disabled for all Android builds, including debug.
+  - npm run dev in a browser still supports http://localhost:5000 (or a loopback IP).
+    LAN HTTP endpoints are rejected. Website production builds also require HTTPS.
 
 FIX: "Parent directory of ... build.gradle\.gradle\build-attribution\... does not exist"
   This means Android Studio thinks your project root is the FILE "build.gradle" instead of the ANDROID FOLDER.

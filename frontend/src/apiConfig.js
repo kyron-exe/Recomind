@@ -1,24 +1,30 @@
 import { Capacitor } from '@capacitor/core';
 
 /**
- * Backend URL. Set VITE_API_URL when building for a real device (use your PC's LAN IP, e.g. http://192.168.1.5:5000).
- * Android emulator uses 10.0.2.2 to reach the host machine's localhost.
+ * Set VITE_API_URL to an HTTPS backend when building for devices or production.
+ * HTTP localhost is supported only by the browser development server.
  */
 function resolveApiBase() {
   const fromEnv = import.meta.env.VITE_API_URL;
   if (fromEnv) return String(fromEnv).replace(/\/$/, '');
 
-  try {
-    if (Capacitor.isNativePlatform()) {
-      if (Capacitor.getPlatform() === 'android') {
-        return 'http://10.0.2.2:5000';
-      }
-    }
-  } catch {
-    /* ignore */
-  }
-
   return 'http://localhost:5000';
 }
 
 export const API_BASE = resolveApiBase();
+
+export async function fetchApi(url) {
+  const parsed = new URL(url);
+  const localDevelopment =
+    import.meta.env.DEV &&
+    !Capacitor.isNativePlatform() &&
+    parsed.protocol === 'http:' &&
+    ['localhost', '127.0.0.1', '[::1]'].includes(parsed.hostname);
+
+  if (parsed.protocol !== 'https:' && !localDevelopment) {
+    throw new Error('API connections require HTTPS. Configure VITE_API_URL with an HTTPS backend.');
+  }
+
+  // Reject redirects so an HTTPS endpoint cannot downgrade the request to HTTP.
+  return fetch(parsed.href, { redirect: 'error' });
+}
